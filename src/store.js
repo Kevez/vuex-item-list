@@ -21,8 +21,19 @@ export default new Vuex.Store({
 	},
 	mutations: {
 		LOGIN: (state, payload) => {
+			state.user = {
+				isLoggedIn: true,
+				name: payload.username,
+				level: payload.username === 'admin' ? 2 : 1
+			}
+
+			id = state.items.length + 1;
 		},
 		LOGOUT: (state) => {
+			state.user = {
+				isLoggedIn: false,
+				name: ''
+			}
 		},
 		SHOW_FORM: (state, payload) => {
 		},

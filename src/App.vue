@@ -4,21 +4,36 @@
             <Login/>
         </div>
         <div v-else="user.isLoggedIn">
+            <div class="item-list">
+                <ItemList v-for="item in topLevelItems"
+                          :key="item.id"
+                          :item="item"
+                          :items="items"/>
+            </div>
         </div>
     </div>
 </template>
 
 <script>
 	import {mapState} from 'vuex';
+	import ItemList from './components/ItemList';
 
 	export default {
 		name: 'app',
 		components: {
+			ItemList
 		},
-        computed: mapState([
-			'user',
-			'items',
-		])
+        computed: {
+			topLevelItems() {
+				return this.items.filter((item) => {
+					return item.parent === 0;
+				});
+			},
+			...mapState([
+				'user',
+				'items',
+			])
+        }
 	}
 </script>
 
