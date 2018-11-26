@@ -1,4 +1,4 @@
-# vuex-socketio-item-list
+# Vuex socket.io item list
 
 ## Project setup
 ```
