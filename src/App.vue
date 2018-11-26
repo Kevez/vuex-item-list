@@ -3,7 +3,7 @@
         <div v-if="!user.isLoggedIn">
             <Login/>
         </div>
-        <div v-else="user.isLoggedIn">
+        <div v-else-if="user.isLoggedIn">
             <WelcomeMessage :username="user.name"/>
             <h4>Item List</h4>
             <RecentlyUpdated :message="recentlyUpdated" v-if="recentlyUpdated"/>
@@ -15,12 +15,14 @@
                           :depth="0"
                           :level="user.level"/>
             </div>
+            <Form v-if="showForm"></Form>
         </div>
     </div>
 </template>
 
 <script>
 	import {mapState} from 'vuex';
+	import Form from './components/Form';
 	import ItemList from './components/ItemList';
 	import Login from './components/Login';
 	import RecentlyUpdated from './components/RecentlyUpdated';
@@ -29,6 +31,7 @@
 	export default {
 		name: 'app',
 		components: {
+			Form,
 			ItemList,
 			Login,
 			RecentlyUpdated,
@@ -48,6 +51,7 @@
 			...mapState([
 				'user',
 				'items',
+				'showForm'
 			])
 		},
 		methods: {

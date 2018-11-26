@@ -32,7 +32,25 @@
 				}
 			}
 		},
-		methods: {}
+		methods: {
+			showAddForm: function (id) {
+				this.$store.dispatch('showForm', {
+					type: 'add',
+					id: id
+				});
+			},
+			showEditForm: function (id) {
+				this.$store.dispatch('showForm', {
+					type: 'edit',
+					id: id,
+					name: this.item.name
+				});
+			},
+			removeItem: function (id) {
+				this.$store.dispatch('removeItem', id);
+				this.$socket.emit('removeItem', id);
+			}
+        }
 	}
 </script>
 
