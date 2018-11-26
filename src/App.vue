@@ -4,6 +4,9 @@
             <Login/>
         </div>
         <div v-else="user.isLoggedIn">
+            <WelcomeMessage :username="user.name"/>
+            <h4>Item List</h4>
+            <RecentlyUpdated :message="recentlyUpdated" v-if="recentlyUpdated"/>
             <div class="item-list">
                 <ItemList v-for="item in topLevelItems"
                           :key="item.id"
