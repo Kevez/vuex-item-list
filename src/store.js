@@ -18,6 +18,11 @@ export default new Vuex.Store({
 			{id: 4, parent: 0, name: 'Default item 4'},
 			{id: 5, parent: 0, name: 'Default item 5'}
 		],
+		showForm: false,
+		formType: '',
+		parentToAddTo: 0,
+		currentlyEditingId: 0,
+		currentlyEditingName: ''
 	},
 	mutations: {
 		LOGIN: (state, payload) => {
