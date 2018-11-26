@@ -33,20 +33,20 @@
 			}
 		},
 		methods: {
-			showAddForm: function (id) {
+			showAddForm(id) {
 				this.$store.dispatch('showForm', {
 					type: 'add',
 					id: id
 				});
 			},
-			showEditForm: function (id) {
+			showEditForm(id) {
 				this.$store.dispatch('showForm', {
 					type: 'edit',
 					id: id,
 					name: this.item.name
 				});
 			},
-			removeItem: function (id) {
+			removeItem(id) {
 				this.$store.dispatch('removeItem', id);
 				this.$socket.emit('removeItem', id);
 			}

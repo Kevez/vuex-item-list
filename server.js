@@ -3,7 +3,7 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 const port = 7777;
 
-io.on('connection', function (socket) {
+io.on('connection', (socket) => {
 	socket.on('addItem', (payload) => {
 		socket.broadcast.emit('addItem', payload);
 		io.emit('itemUpdated', {

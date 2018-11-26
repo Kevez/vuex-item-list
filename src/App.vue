@@ -58,6 +58,36 @@
 			informUsersOfChange(message) {
 				this.recentlyUpdated = message;
 			}
+		},
+		mounted() {
+			this.$options.sockets.addItem = (data) => {
+				this.$store.dispatch('addItem', data);
+			};
+
+			this.$options.sockets.editItem = (data) => {
+				this.$store.dispatch('editItem', data);
+			};
+
+			this.$options.sockets.removeItem = (data) => {
+				this.$store.dispatch('removeItem', data);
+			};
+
+			this.$options.sockets.itemUpdated = (data) => {
+				var message = '';
+				switch (data.type) {
+					case 'add':
+						message = `${data.payload.name} was added`;
+						break;
+					case 'edit':
+						message = `${data.payload.prevName} was updated to ${data.payload.name}`;
+						break;
+					case 'remove':
+						message = `Item was removed`;
+						break;
+				}
+
+				this.informUsersOfChange(message);
+			};
 		}
 	}
 </script>
@@ -65,6 +95,10 @@
 <style>
     * {
         box-sizing: border-box;
+    }
+
+    html, body {
+        height: 100%;
     }
 
     body {
@@ -77,6 +111,7 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         position: relative;
+        height: 100%;
     }
 
     h2, h3 {

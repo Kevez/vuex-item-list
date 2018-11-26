@@ -27,7 +27,7 @@
 					username: this.username
 				});
 			},
-			checkKeyPress: function (e) {
+			checkKeyPress(e) {
 				if (e.keyCode !== 13) {
 					return;
 				}

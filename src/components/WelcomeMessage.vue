@@ -21,7 +21,7 @@
 			logout() {
 				this.$store.dispatch('logout');
 			},
-			checkKeyPress: function (e) {
+			checkKeyPress(e) {
 				if (e.keyCode !== 13) {
 					return;
 				}
