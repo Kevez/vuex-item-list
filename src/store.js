@@ -41,8 +41,20 @@ export default new Vuex.Store({
 			}
 		},
 		SHOW_FORM: (state, payload) => {
+			state.currentlyEditingName = '';
+			state.formType = payload.type;
+
+			if (payload.type === 'add') {
+				state.parentToAddTo = payload.id;
+			} else {
+				state.currentlyEditingId = payload.id;
+				state.currentlyEditingName = payload.name;
+			}
+
+			state.showForm = true;
 		},
 		DISMISS_MODAL: (state) => {
+			state.showForm = false;
 		},
 		ADD_ITEM: (state, payload) => {
 			state.items.push({
