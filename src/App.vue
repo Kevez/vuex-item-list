@@ -8,7 +8,8 @@
                 <ItemList v-for="item in topLevelItems"
                           :key="item.id"
                           :item="item"
-                          :items="items"/>
+                          :items="items"
+                          :depth="0"/>
             </div>
         </div>
     </div>
@@ -23,7 +24,7 @@
 		components: {
 			ItemList
 		},
-        computed: {
+		computed: {
 			topLevelItems() {
 				return this.items.filter((item) => {
 					return item.parent === 0;
@@ -33,7 +34,7 @@
 				'user',
 				'items',
 			])
-        }
+		}
 	}
 </script>
 

@@ -3,7 +3,8 @@
         <span :style="indent">{{item.name}}</span>
         <ItemList v-for="item in subItems"
                   :item="item"
-                  :items="items"/>
+                  :items="items"
+                  :depth="depth + 1"/>
     </div>
 </template>
 
@@ -16,10 +17,14 @@
 				return this.items.filter((x) => {
 					return x.parent === this.item.id;
 				});
+			},
+			indent() {
+				return {
+					marginLeft: `${this.depth * 1.25}rem`
+				}
 			}
 		},
-		methods: {
-		}
+		methods: {}
 	}
 </script>
 
