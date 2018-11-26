@@ -21,11 +21,17 @@
 <script>
 	import {mapState} from 'vuex';
 	import ItemList from './components/ItemList';
+	import Login from './components/Login';
+	import RecentlyUpdated from './components/RecentlyUpdated';
+	import WelcomeMessage from './components/WelcomeMessage';
 
 	export default {
 		name: 'app',
 		components: {
-			ItemList
+			ItemList,
+			Login,
+			RecentlyUpdated,
+			WelcomeMessage
 		},
 		computed: {
 			topLevelItems() {
