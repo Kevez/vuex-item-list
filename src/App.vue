@@ -143,11 +143,13 @@
         border: none;
         width: 260px;
         height: 70px;
-        margin: 4px;
         padding: 0;
         line-height: 70px;
         font-size: 18px;
         font-weight: 400;
+        display: block;
+        margin: 0 auto;
+        margin-bottom: 0.5rem;
     }
 
     a {
