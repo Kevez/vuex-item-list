@@ -4,14 +4,15 @@
         <ItemList v-for="item in subItems"
                   :item="item"
                   :items="items"
-                  :depth="depth + 1"/>
+                  :depth="depth + 1"
+                  :level="level"/>
     </div>
 </template>
 
 <script>
 	export default {
 		name: 'ItemList',
-		props: ['item', 'items'],
+		props: ['item', 'items', 'depth', 'level'],
 		computed: {
 			subItems() {
 				return this.items.filter((x) => {
