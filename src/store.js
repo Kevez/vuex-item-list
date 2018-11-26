@@ -29,10 +29,27 @@ export default new Vuex.Store({
 		DISMISS_MODAL: (state) => {
 		},
 		ADD_ITEM: (state, payload) => {
+			state.items.push({
+				id: id,
+				name: payload.name,
+				parent: payload.parentToAddTo
+			});
+
+			id++;
 		},
 		EDIT_ITEM: (state, payload) => {
+			var item = state.items.filter((item) => {
+				return item.id ===  payload.id;
+			})[0];
+
+			item.name = payload.name;
 		},
 		REMOVE_ITEM: (state, id) => {
+			var item = state.items.filter((item) => {
+				return item.id === id;
+			})[0];
+
+			state.items.splice(state.items.indexOf(item), 1);
 		}
 	},
 	actions: {
