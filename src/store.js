@@ -19,6 +19,43 @@ export default new Vuex.Store({
 			{id: 5, parent: 0, name: 'Default item 5'}
 		],
 	},
-	mutations: {},
-	actions: {}
+	mutations: {
+		LOGIN: (state, payload) => {
+		},
+		LOGOUT: (state) => {
+		},
+		SHOW_FORM: (state, payload) => {
+		},
+		DISMISS_MODAL: (state) => {
+		},
+		ADD_ITEM: (state, payload) => {
+		},
+		EDIT_ITEM: (state, payload) => {
+		},
+		REMOVE_ITEM: (state, id) => {
+		}
+	},
+	actions: {
+		login(context, payload) {
+			context.commit('LOGIN', payload);
+		},
+		logout(context, payload) {
+			context.commit('LOGOUT', payload);
+		},
+		showForm(context, payload) {
+			context.commit('SHOW_FORM', payload);
+		},
+		dismissModal(context) {
+			context.commit('DISMISS_MODAL');
+		},
+		addItem(context, payload) {
+			context.commit('ADD_ITEM', payload);
+		},
+		editItem(context, payload) {
+			context.commit('EDIT_ITEM', payload);
+		},
+		removeItem(context, payload) {
+			context.commit('REMOVE_ITEM', payload);
+		}
+	}
 })
