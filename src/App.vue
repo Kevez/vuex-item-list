@@ -113,6 +113,7 @@
 
     a {
         color: #ccc;
+        text-decoration: none;
     }
 
     .item-list {

@@ -1,9 +1,16 @@
 <template>
     <div class="category">
         <span :style="indent">{{item.name}}</span>
+        [<a href="#" class="add" @click="showAddForm(item.id)">+</a>]
+        [<a href="#" class="edit" @click="showEditForm(item.id)">edit</a>]
+
+        <span v-if="level > 1">
+            [<a href="#" class="remove" @click="removeItem(item.id)">x</a>]
+        </span>
         <ItemList v-for="item in subItems"
                   :item="item"
                   :items="items"
+                  :key="item.id"
                   :depth="depth + 1"
                   :level="level"/>
     </div>
@@ -34,9 +41,24 @@
         text-align: left;
     }
 
+    input {
+        margin-bottom: 1rem;
+    }
+
     a {
         display: inline-block;
         text-align: center;
-        text-decoration: none;
+    }
+
+    a.add {
+        color: green;
+    }
+
+    a.edit {
+        color: orange;
+    }
+
+    a.remove {
+        color: red;
     }
 </style>
