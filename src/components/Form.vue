@@ -56,7 +56,7 @@
 							name: this.itemName,
 							prevName: this.currentlyEditingName
                         });
-					});;
+					});
                 }
 
 				this.$store.dispatch('dismissModal');
