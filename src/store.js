@@ -1,8 +1,9 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
 
 Vue.use(Vuex);
-var id;
+const API_BASE_URL = 'http://localhost:7777';
 
 export default new Vuex.Store({
 	state: {
@@ -11,13 +12,7 @@ export default new Vuex.Store({
 			name: '',
 			level: 1
 		},
-		items: [
-			{id: 1, parent: 0, name: 'Default item 1'},
-			{id: 2, parent: 0, name: 'Default item 2'},
-			{id: 3, parent: 0, name: 'Default item 3'},
-			{id: 4, parent: 0, name: 'Default item 4'},
-			{id: 5, parent: 0, name: 'Default item 5'}
-		],
+		items: [],
 		showForm: false,
 		formType: '',
 		parentToAddTo: 0,
@@ -25,14 +20,15 @@ export default new Vuex.Store({
 		currentlyEditingName: ''
 	},
 	mutations: {
+		REFRESH_ITEM_LIST: (state, payload) => {
+			state.items = payload;
+		},
 		LOGIN: (state, payload) => {
 			state.user = {
 				isLoggedIn: true,
 				name: payload.username,
 				level: payload.username === 'admin' ? 2 : 1
 			}
-
-			id = state.items.length + 1;
 		},
 		LOGOUT: (state) => {
 			state.user = {
@@ -55,32 +51,17 @@ export default new Vuex.Store({
 		},
 		DISMISS_MODAL: (state) => {
 			state.showForm = false;
-		},
-		ADD_ITEM: (state, payload) => {
-			state.items.push({
-				id: id,
-				name: payload.name,
-				parent: payload.parentToAddTo
-			});
-
-			id++;
-		},
-		EDIT_ITEM: (state, payload) => {
-			var item = state.items.filter((item) => {
-				return item.id ===  payload.id;
-			})[0];
-
-			item.name = payload.name;
-		},
-		REMOVE_ITEM: (state, id) => {
-			var item = state.items.filter((item) => {
-				return item.id === id;
-			})[0];
-
-			state.items.splice(state.items.indexOf(item), 1);
 		}
 	},
 	actions: {
+		refreshItemList(context) {
+			axios.get(`${API_BASE_URL}/items`).then((response) => {
+				context.commit('REFRESH_ITEM_LIST', response.data);
+			});
+		},
+		refreshItemListFromSocket(context, payload) {
+			context.commit('REFRESH_ITEM_LIST', payload);
+		},
 		login(context, payload) {
 			context.commit('LOGIN', payload);
 		},
@@ -94,13 +75,27 @@ export default new Vuex.Store({
 			context.commit('DISMISS_MODAL');
 		},
 		addItem(context, payload) {
-			context.commit('ADD_ITEM', payload);
+			return axios.post(`${API_BASE_URL}/add-item`, {
+				name: payload.name,
+				parentToAddTo: payload.parentToAddTo
+			}).then((response) => {
+				context.commit('REFRESH_ITEM_LIST', response.data);
+			});
 		},
 		editItem(context, payload) {
-			context.commit('EDIT_ITEM', payload);
+			return axios.post(`${API_BASE_URL}/update-item`, {
+				id: payload.id,
+				name: payload.name
+			}).then((response) => {
+				context.commit('REFRESH_ITEM_LIST', response.data);
+			});
 		},
-		removeItem(context, payload) {
-			context.commit('REMOVE_ITEM', payload);
+		removeItem(context, itemId) {
+			return axios.post(`${API_BASE_URL}/remove-item`, {
+				id: itemId
+			}).then((response) => {
+				context.commit('REFRESH_ITEM_LIST', response.data);
+			});
 		}
 	}
 })

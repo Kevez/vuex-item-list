@@ -4,7 +4,7 @@
         [<a href="#" class="add" @click="showAddForm(item.id)">+</a>]
         [<a href="#" class="edit" @click="showEditForm(item.id)">edit</a>]
 
-        <span v-if="level > 1">
+        <span v-if="level > 1 && item.parent > 0">
             [<a href="#" class="remove" @click="removeItem(item.id)">x</a>]
         </span>
         <ItemList v-for="item in subItems"
@@ -47,8 +47,11 @@
 				});
 			},
 			removeItem(id) {
-				this.$store.dispatch('removeItem', id);
-				this.$socket.emit('removeItem', id);
+				this.$store.dispatch('removeItem', id).then(() => {
+					this.$socket.emit('removeItem', {
+						name: this.item.name
+					});
+                });
 			}
         }
 	}

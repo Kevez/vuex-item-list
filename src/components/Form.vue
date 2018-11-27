@@ -27,7 +27,8 @@
 				'parentToAddTo',
 				'currentlyEditingId',
 				'currentlyEditingName',
-				'formType'
+				'formType',
+				'items'
 			])
 		},
 		methods: {
@@ -40,25 +41,23 @@
 					this.$store.dispatch('addItem', {
 						name: this.itemName,
 						parentToAddTo: this.parentToAddTo
-					});
-
-					this.$socket.emit('addItem', {
-						name: this.itemName,
-						parentToAddTo: this.parentToAddTo
-					});
+					}).then(() => {
+						this.$socket.emit('addItem', {
+							name: this.itemName
+                        });
+                    });
 				} else {
 					this.$store.dispatch('editItem', {
 						id: this.currentlyEditingId,
 						name: this.itemName,
 						prevName: this.currentlyEditingName
-					});
-
-					this.$socket.emit('editItem', {
-						id: this.currentlyEditingId,
-						name: this.itemName,
-						prevName: this.currentlyEditingName
-					});
-				}
+					}).then(() => {
+						this.$socket.emit('editItem', {
+							name: this.itemName,
+							prevName: this.currentlyEditingName
+                        });
+					});;
+                }
 
 				this.$store.dispatch('dismissModal');
 			},

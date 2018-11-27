@@ -4,89 +4,28 @@
             <Login/>
         </div>
         <div v-else-if="user.isLoggedIn">
-            <WelcomeMessage :username="user.name"/>
-            <h4>Item List</h4>
-            <RecentlyUpdated :message="recentlyUpdated" v-if="recentlyUpdated"/>
-            <div class="item-list">
-                <ItemList v-for="item in topLevelItems"
-                          :key="item.id"
-                          :item="item"
-                          :items="items"
-                          :depth="0"
-                          :level="user.level"/>
-            </div>
-            <Form v-if="showForm"></Form>
+            <Authenticated/>
         </div>
     </div>
 </template>
 
 <script>
 	import {mapState} from 'vuex';
-	import Form from './components/Form';
-	import ItemList from './components/ItemList';
+	import Authenticated from './components/Authenticated';
 	import Login from './components/Login';
-	import RecentlyUpdated from './components/RecentlyUpdated';
-	import WelcomeMessage from './components/WelcomeMessage';
 
 	export default {
 		name: 'app',
 		components: {
-			Form,
-			ItemList,
+			Authenticated,
 			Login,
-			RecentlyUpdated,
-			WelcomeMessage
 		},
-		data() {
-			return {
-				recentlyUpdated: ''
-			}
-		},
-		computed: {
-			topLevelItems() {
-				return this.items.filter((item) => {
-					return item.parent === 0;
-				});
-			},
-			...mapState([
-				'user',
-				'items',
-				'showForm'
-			])
-		},
-		methods: {
-			informUsersOfChange(message) {
-				this.recentlyUpdated = message;
-			}
-		},
+		computed: mapState([
+			'user'
+		]),
 		mounted() {
-			this.$options.sockets.addItem = (data) => {
-				this.$store.dispatch('addItem', data);
-			};
-
-			this.$options.sockets.editItem = (data) => {
-				this.$store.dispatch('editItem', data);
-			};
-
-			this.$options.sockets.removeItem = (data) => {
-				this.$store.dispatch('removeItem', data);
-			};
-
-			this.$options.sockets.itemUpdated = (data) => {
-				var message = '';
-				switch (data.type) {
-					case 'add':
-						message = `${data.payload.name} was added`;
-						break;
-					case 'edit':
-						message = `${data.payload.prevName} was updated to ${data.payload.name}`;
-						break;
-					case 'remove':
-						message = `Item was removed`;
-						break;
-				}
-
-				this.informUsersOfChange(message);
+			this.$options.sockets.refreshItemList = (payload) => {
+				this.$store.dispatch('refreshItemListFromSocket', payload);
 			};
 		}
 	}
@@ -155,10 +94,5 @@
     a {
         color: #ccc;
         text-decoration: none;
-    }
-
-    .item-list {
-        padding-left: 1rem;
-        line-height: 1.8rem;
     }
 </style>
